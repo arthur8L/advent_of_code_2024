@@ -6,3 +6,5 @@ d2:
 	cargo run -p day2
 d3:
 	cargo run -p day3
+d4:
+	cargo run -p day4
