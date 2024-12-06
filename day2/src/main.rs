@@ -53,25 +53,21 @@ fn part2(input: AdventInput) {
             let full_len = r.len();
             let mut multiplier = if r[0] < r[1] { -1 } else { 1 };
             let mut pass = true;
-            r.iter()
-                .enumerate()
-                .take_while(|(idx, v)| {
-                    if *idx == full_len - 1 {
-                        return true;
+            r.iter().enumerate().all(|(idx, v)| {
+                if idx == full_len - 1 {
+                    return true;
+                }
+                let diff = *v - r[idx + 1];
+                let check = (1..=3).contains(&(diff * multiplier));
+                if pass && !check {
+                    pass = false;
+                    if idx == 1 && r[0] > r[idx + 1] && multiplier < 0 {
+                        multiplier *= -1;
                     }
-                    let diff = *v - r[idx + 1];
-                    let check = (1..=3).contains(&(diff * multiplier));
-                    if pass && !check {
-                        pass = false;
-                        if *idx == 1 && r[0] > r[idx + 1] && multiplier < 0 {
-                            multiplier *= -1;
-                        }
-                        return true;
-                    }
-                    check
-                })
-                .count()
-                == full_len
+                    return true;
+                }
+                check
+            })
         })
         .count();
 
