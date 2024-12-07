@@ -1,5 +1,5 @@
 new:
-	cargo new $(name) && cargo add util -p $(name)
+	cargo new day$(idx) && cargo add util -p day$(idx)
 d1:
 	cargo run -p day1
 d2:
@@ -12,3 +12,11 @@ d5:
 	cargo run -p day5
 d6:
 	cargo run -p day6
+d7:
+	cargo run -p day7
+
+
+
+
+
+
