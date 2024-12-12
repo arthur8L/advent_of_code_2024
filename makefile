@@ -20,6 +20,8 @@ d9:
 	cargo run -p day9
 d10:
 	cargo run -p day10
+d11:
+	cargo run -p day11
 
 
 

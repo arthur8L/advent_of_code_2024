@@ -5,7 +5,7 @@ use std::{
 };
 
 #[derive(Debug, Clone)]
-pub struct AdventInput(String);
+pub struct AdventInput(pub String);
 
 impl AdventInput {
     pub fn read(path: std::path::PathBuf) -> std::io::Result<Self> {
