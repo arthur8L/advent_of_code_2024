@@ -19,6 +19,13 @@ impl AdventInput {
         self.0.lines().collect::<Vec<&str>>()
     }
 
+    pub fn as_char_vec(&self) -> Vec<Vec<char>> {
+        self.0
+            .lines()
+            .map(|r| r.chars().collect::<Vec<char>>())
+            .collect()
+    }
+
     pub fn split_column(&self) -> (Vec<&str>, Vec<&str>) {
         let lines = self.lines();
         lines.iter().fold(

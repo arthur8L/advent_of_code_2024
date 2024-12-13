@@ -2,7 +2,6 @@ use std::collections::hash_map::Entry::Vacant;
 use std::collections::HashMap;
 use util::AdventInput;
 
-// FAILED ON THIS ONE. OVERLY RELIED ON ITERATOR BC IT LOOKED FUN SHOULD HAVE APPROACHED MORE FUNDAMENTALLY
 fn main() {
     let raw = AdventInput::read("./day11/input".into()).unwrap();
     let input = raw
@@ -38,6 +37,46 @@ fn part1(input: &[usize]) {
 }
 
 fn part2(input: &[usize]) {
+    let stone_count = input.iter().map(|v| get_that_stone(*v, 75)).sum::<usize>();
+
+    println!("Part 2: {:?}", stone_count);
+}
+
+fn get_zeroes(v: &usize) -> usize {
+    (0..)
+        .take_while(|idx| *v >= 10_usize.pow(*idx as u32))
+        .count()
+}
+
+fn get_zeroes_log10(v: &usize) -> usize {
+    (*v as f32).log10() as usize
+}
+
+fn get_that_stone(mut stone: usize, blinks: usize) -> usize {
+    let mut count = 1;
+    // println!("{:?}", blinks);
+    (0..blinks).for_each(|idx| {
+        if stone == 0 {
+            stone = 1;
+            return;
+        }
+        let digits = get_zeroes_log10(&stone) + 1;
+        if digits % 2 == 0 {
+            let divisor = 10_usize.pow((digits / 2) as u32);
+            let (lhs, rhs) = (stone / divisor, stone % divisor);
+            stone = lhs;
+            count += get_that_stone(rhs, blinks - idx - 1);
+            return;
+        }
+
+        stone *= 2024;
+    });
+
+    count
+}
+
+#[allow(dead_code)]
+fn part2_first_attempt(input: &[usize]) {
     const TOTAL_BLINKS: usize = 25;
     let mut s_map: HashMap<usize, (Vec<Vec<usize>>, usize)> = HashMap::new();
     let mut found_stones = Vec::new();
@@ -89,12 +128,6 @@ fn part2(input: &[usize]) {
         .sum::<usize>();
 
     println!("Part 2: {:?}", remain_stones.len() + logged_stones);
-}
-
-fn get_zeroes(v: &usize) -> usize {
-    (0..)
-        .take_while(|idx| *v >= 10_usize.pow(*idx as u32))
-        .count()
 }
 
 fn blink(s: &[usize]) -> Vec<usize> {
